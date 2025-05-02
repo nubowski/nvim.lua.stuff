@@ -16,6 +16,24 @@ return {
     },
 
     config = function()
+            local on_attach = function(client, bufnr)
+            local bufmap = function(mode, lhs, rhs, desc)
+                vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+            end
+
+            bufmap('n', 'gd', vim.lsp.buf.definition, "Go to definition")
+            bufmap('n', 'gD', vim.lsp.buf.declaration, "Go to declaration")
+            bufmap('n', 'gi', vim.lsp.buf.implementation, "Go to implementation")
+            bufmap('n', 'gr', vim.lsp.buf.references, "Find references")
+            bufmap('n', 'K', vim.lsp.buf.hover, "Hover docs")
+            bufmap('n', '<leader>rn', vim.lsp.buf.rename, "Rename symbol")
+            bufmap('n', '<leader>ca', vim.lsp.buf.code_action, "Code action")
+            bufmap('n', '[d', vim.diagnostic.goto_prev, "Prev diagnostic")
+            bufmap('n', ']d', vim.diagnostic.goto_next, "Next diagnostic")
+            bufmap('n', '<leader>dl', vim.diagnostic.open_float, "Line diagnostic")
+            bufmap('n', '<leader>q', vim.diagnostic.setloclist, "Diagnostic loclist")
+        end
+
         -- Mason: install LSP servers
         require("mason").setup()
         require("mason-lspconfig").setup({
